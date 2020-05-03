@@ -1,0 +1,264 @@
+#include&lt;stdio.h&gt;
+struct Node{
+int info;
+struct Node *next;
+struct Node *prev;
+};
+struct Node * start;
+struct Node * CreateNode(void )
+{
+struct Node * ptr;
+ptr=(struct Node*)malloc(sizeof(struct Node));
+return ptr;
+}
+int Input()
+{
+int item;
+printf(&quot;Enter the element to be inserted.&quot;);
+scanf(&quot;%d&quot;,&amp;item);
+return item;
+}
+void InsertionAtBeginning()
+{
+struct Node* ptr;
+int item;
+item=Input();
+ptr=CreateNode();
+ptr-&gt;info=item;
+//printf(&quot;%d&quot;,ptr-&gt;info);
+if(start==NULL)
+{
+ptr-&gt;next=NULL;
+ptr-&gt;prev=NULL;
+start=ptr;
+}
+else
+{
+ptr-&gt;prev=ptr;
+ptr-&gt;next=start;
+start=ptr;
+}
+}
+void InsertionAtEnd()
+{
+struct Node* ptr,*new;
+int item;
+item=Input();
+
+new=CreateNode();
+new-&gt;info=item;
+ptr=start;
+// printf(&quot;%d&quot;,ptr-&gt;info);
+if(start==NULL)
+{
+new-&gt;next=NULL;
+new-&gt;prev=NULL;
+start=new;
+}
+else
+{
+while(ptr-&gt;next!=NULL)
+{
+ptr=ptr-&gt;next;
+}
+new-&gt;prev=ptr;
+new-&gt;next=NULL;
+ptr-&gt;next=new;
+}
+}
+void InsertionInSortedList()
+{
+}
+struct Node * Search(int item)
+{
+struct Node* ptr,*temp=NULL;
+ptr=start;
+while(ptr!=NULL)
+{
+if(ptr-&gt;info==item)
+{
+printf(&quot;Item found
+%d&quot;,ptr-&gt;info);
+return ptr;
+}
+ptr=ptr-&gt;next;
+}
+return temp;
+}
+void InsertionBefore()
+{
+struct Node* new,*ptrs;
+int item,newitem;
+
+item=Input();
+new=CreateNode();
+new-&gt;info=item;
+//printf(&quot;%d&quot;,ptr-&gt;info);
+if(start==NULL)
+{
+new-&gt;next=NULL;
+new-&gt;prev=NULL;
+start=new;
+}else
+{
+printf(&quot;\nEnter the exiting item in the linklist\nbefore which you
+want to insert the new item:&quot;);
+scanf(&quot;%d&quot;,&amp;newitem);
+ptrs=Search(newitem);
+if(ptrs==NULL)
+{
+printf(&quot;\nItem Not Found\n&quot;);
+}else if(ptrs==start){
+ptrs-&gt;prev=new;
+new-&gt;next=ptrs;
+new-&gt;prev=NULL;
+start=new;
+}else
+{
+new-&gt;next=ptrs;
+new-&gt;prev=ptrs-&gt;prev;
+ptrs-&gt;prev-&gt;next=new;
+ptrs-&gt;prev=new;
+}
+}
+}
+
+void InsertionAfter()
+{
+struct Node* new,*ptrs;
+int item,newitem;
+item=Input();
+new=CreateNode();
+new-&gt;info=item;
+//printf(&quot;%d&quot;,ptr-&gt;info);
+if(start==NULL)
+{
+new-&gt;next=NULL;
+new-&gt;prev=NULL;
+start=new;
+}else
+{
+printf(&quot;\nEnter the exiting item in the linklist\nafter which you
+want to insert the new item:&quot;);
+
+scanf(&quot;%d&quot;,&amp;newitem);
+ptrs=Search(newitem);
+if(ptrs==NULL)
+{
+printf(&quot;\nItem Not Found\n&quot;);
+}else if(ptrs==start){
+new-&gt;prev=ptrs;
+new-&gt;next=NULL;
+ptrs-&gt;next=new;
+}else if(ptrs-&gt;next==NULL)
+{
+new-&gt;prev=ptrs;
+new-&gt;next=NULL;
+ptrs-&gt;next=new;
+}else
+{
+new-&gt;prev=ptrs;
+new-&gt;next=ptrs-&gt;next;
+ptrs-&gt;next-&gt;prev=new;
+ptrs-&gt;next=new;
+}
+}
+}
+void DeletionFront()
+{
+struct Node *ptr;
+ptr=start;
+if(ptr==NULL)
+{
+printf(&quot;Can&#39;t delete ! Empty Linklist !&quot;);
+}else if(ptr-&gt;next==NULL)
+{
+printf(&quot;%d deleted&quot;,ptr-&gt;info);
+start=NULL;
+}else{
+printf(&quot;%d deleted&quot;,ptr-&gt;info);
+start=start-&gt;next;
+if(start==NULL)
+printf(&quot;Empty&quot;);
+}
+}
+void DeletionLast()
+{
+struct Node *ptr;
+ptr=start;
+if(ptr==NULL)
+{
+printf(&quot;Can&#39;t delete ! Empty Linklist !&quot;);
+}else if(ptr-&gt;next==NULL)
+{
+
+printf(&quot;%d deleted&quot;,ptr-&gt;info);
+start=NULL;
+}else{
+while(ptr-&gt;next!=NULL)
+{
+ptr=ptr-&gt;next;
+}
+printf(&quot;%d deleted&quot;,ptr-&gt;info);
+ptr-&gt;prev-&gt;next=NULL;
+free(ptr);
+}
+}
+void Display()
+{
+struct Node* ptr;
+ptr=start;
+if(ptr!=NULL)
+{
+printf(&quot;Elements of LinkList:\t&quot;);
+while(ptr-&gt;next!=NULL)
+{
+printf(&quot;\t%d&quot;,ptr-&gt;info);
+ptr=ptr-&gt;next;
+};
+printf(&quot;\t%d&quot;,ptr-&gt;info);
+}else
+{
+printf(&quot;Empty Linklist&quot;);
+}
+}
+int main()
+{
+int ch;
+printf(&quot;\n1). Insertion at Beginning&quot;);
+printf(&quot;\n2).Insertion at End &quot;);
+printf(&quot;\n3).Insertion in sorted list &quot;);
+printf(&quot;\n4).Insertion before &quot;);
+printf(&quot;\n5).Insertion after &quot;);
+printf(&quot;\n6).DeletionFront&quot;);
+printf(&quot;\n7).DeletionLast&quot;);
+printf(&quot;\n8).Display&quot;);
+printf(&quot;\n9).Exit&quot;);
+while(1)
+{
+printf(&quot;\nEnter your choice:&quot;);
+scanf(&quot;%d&quot;,&amp;ch);
+switch(ch)
+{
+
+case 1:InsertionAtBeginning();
+break;
+case 2:InsertionAtEnd();
+break;
+case 3:InsertionInSortedList();
+break;
+case 4:InsertionBefore();
+break;
+case 5:InsertionAfter();
+break;
+case 6:DeletionFront();
+break;
+case 7:DeletionLast();
+break;
+case 8:Display();
+break;
+case 9:exit(0);
+default:printf(&quot;Wrong choice.&quot;);
+}
+}
+}
